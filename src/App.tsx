@@ -25,7 +25,9 @@ import {
   Edit2,
   Heart,
   ExternalLink,
-  MessageSquare
+  MessageSquare,
+  Moon,
+  Sun
 } from "lucide-react";
 import { SAMPLE_TRANSCRIPTS } from "./sampleData";
 import { HistoryItem, MeetingSummaryResponse } from "./types";
@@ -50,6 +52,34 @@ export default function App() {
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingTitle, setEditingTitle] = useState("");
+  
+  // Dark Mode 狀態
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // 0. 初始化 Dark Mode 設定（從 localStorage 或系統偏好）
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme_preference");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const shouldBeDark = savedTheme === "dark" || (savedTheme === null && prefersDark);
+    
+    setIsDarkMode(shouldBeDark);
+    if (shouldBeDark) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
+
+  // 當 isDarkMode 改變時更新 DOM 與 localStorage
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme_preference", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme_preference", "light");
+    }
+  }, [isDarkMode]);
 
   // Loading 跑馬燈文案列表
   const LOADING_STEPS = [
@@ -314,27 +344,35 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F3F4F6] text-slate-800 font-sans antialiased selection:bg-indigo-100 selection:text-indigo-900 flex flex-col">
+    <div className="min-h-screen bg-[#F3F4F6] dark:bg-[#0f172a] text-slate-800 dark:text-slate-100 font-sans antialiased selection:bg-indigo-100 dark:selection:bg-indigo-900 selection:text-indigo-900 dark:selection:text-indigo-100 flex flex-col">
       
       {/* 頂部華麗橫幅 Header */}
-      <nav className="sticky top-0 z-40 bg-white border-b border-slate-200 px-8 py-4 flex items-center justify-between">
+      <nav className="sticky top-0 z-40 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 px-8 py-4 flex items-center justify-between">
         <div className="flex items-center space-x-3">
           <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 12L2.1 12"/><path d="M12 12l9.9 0"/><path d="M12 12l-6.5 7.5"/><path d="M12 12l6.5 7.5"/></svg>
           </div>
           <div>
-            <h1 className="text-xl font-bold tracking-tight text-slate-900 flex items-center space-x-2">
+            <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center space-x-2">
               <span>AI 會議記錄生成與翻譯助理</span>
-              <span className="bg-indigo-50 text-indigo-700 text-[10px] px-2 py-0.5 rounded-md font-semibold border border-indigo-100/50">Gemini</span>
+              <span className="bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-[10px] px-2 py-0.5 rounded-md font-semibold border border-indigo-100/50 dark:border-indigo-800/50">Gemini</span>
             </h1>
           </div>
         </div>
         
         <div className="flex items-center space-x-6">
-          <div className="flex items-center gap-2 text-sm text-slate-500 font-medium hidden md:flex">
+          <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 font-medium hidden md:flex">
             <span className="w-2 h-2 rounded-full bg-green-500"></span>
             Gemini Flash 模型已就緒
           </div>
+          <button
+            type="button"
+            onClick={() => setIsDarkMode(!isDarkMode)}
+            className="flex items-center space-x-1.5 text-xs text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 px-3 py-2 rounded-xl transition-all duration-200 font-semibold border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800"
+            title={isDarkMode ? "切換到淺色模式" : "切換到深色模式"}
+          >
+            {isDarkMode ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
+          </button>
           <button 
             type="button"
             onClick={() => {
@@ -343,7 +381,7 @@ export default function App() {
               setActiveHistoryId(null);
               showNotification("全新會議工作檯已重設！", "info");
             }}
-            className="flex items-center space-x-1.5 text-xs text-slate-500 hover:text-indigo-600 hover:bg-slate-100 px-3 py-2 rounded-xl transition-all duration-200 font-semibold border border-slate-200 bg-white"
+            className="flex items-center space-x-1.5 text-xs text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 px-3 py-2 rounded-xl transition-all duration-200 font-semibold border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>重設</span>

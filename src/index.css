@@ -1,6 +1,44 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@450;500&display=swap');
 @import "tailwindcss";
 
+:root {
+  /* Light Mode Colors */
+  --bg-primary: #F3F4F6;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f1f5f9;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-tertiary: #64748b;
+  --border-primary: #e2e8f0;
+  --border-secondary: #cbd5e1;
+  --bg-code: #f1f5f9;
+  --text-code: #b91c1c;
+  --bg-pre: #1e293b;
+  --text-pre: #f8fafc;
+  --bg-table-header: #f8fafc;
+  --bg-table-even: rgba(248, 250, 252, 0.5);
+  --bg-table-hover: rgba(241, 245, 249, 0.4);
+}
+
+.dark {
+  /* Dark Mode Colors */
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-tertiary: #94a3b8;
+  --border-primary: #475569;
+  --border-secondary: #334155;
+  --bg-code: #1e293b;
+  --text-code: #fca5a5;
+  --bg-pre: #0f172a;
+  --text-pre: #e2e8f0;
+  --bg-table-header: #1e293b;
+  --bg-table-even: rgba(30, 41, 59, 0.5);
+  --bg-table-hover: rgba(51, 65, 85, 0.4);
+}
+
 @theme {
   --font-sans: "Inter", "Noto Sans TC", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
@@ -9,7 +47,7 @@
 /* 針對 Markdown 渲染區 (markdown-body) 的商務專業全排版樣式 */
 .markdown-body {
   font-family: var(--font-sans);
-  color: #334155; /* slate-700 */
+  color: var(--text-secondary);
   line-height: 1.75;
   font-size: 0.875rem; /* 14px */
 }
@@ -18,12 +56,12 @@
 .markdown-body h1 {
   font-size: 1.5rem; /* 24px */
   font-weight: 700;
-  color: #0f172a; /* slate-900 */
+  color: var(--text-primary);
   margin-top: 1.5rem;
   margin-bottom: 0.75rem;
   padding-bottom: 0.5rem;
   border-b-width: 1px;
-  border-bottom-color: #f1f5f9; /* slate-100 */
+  border-bottom-color: var(--border-primary);
   letter-spacing: -0.025em;
   display: flex;
   align-items: center;
@@ -32,7 +70,7 @@
 .markdown-body h2 {
   font-size: 1.25rem; /* 20px */
   font-weight: 700;
-  color: #1e293b; /* slate-800 */
+  color: var(--text-primary);
   margin-top: 1.5rem;
   margin-bottom: 0.75rem;
   padding-left: 0.65rem;
@@ -44,7 +82,7 @@
 .markdown-body h3 {
   font-size: 1.05rem; /* 16.8px */
   font-weight: 600;
-  color: #334155; /* slate-700 */
+  color: var(--text-secondary);
   margin-top: 1.25rem;
   margin-bottom: 0.5rem;
 }
@@ -78,22 +116,22 @@
 /* 強調、線條與引用 */
 .markdown-body strong {
   font-weight: 750;
-  color: #0f172a; /* slate-900 */
+  color: var(--text-primary);
 }
 
 .markdown-body hr {
   height: 1px;
-  background-color: #e2e8f0; /* slate-200 */
+  background-color: var(--border-primary);
   border: none;
   margin: 1.5rem 0;
 }
 
 .markdown-body blockquote {
   border-left-width: 4px;
-  border-left-color: #cbd5e1; /* slate-300 */
+  border-left-color: var(--border-secondary);
   padding-left: 1rem;
   font-style: italic;
-  color: #64748b; /* slate-500 */
+  color: var(--text-tertiary);
   margin: 1rem 0;
 }
 
@@ -101,15 +139,15 @@
 .markdown-body code {
   font-family: var(--font-mono);
   font-size: 0.825rem;
-  background-color: #f1f5f9; /* slate-100 */
+  background-color: var(--bg-code);
   padding: 0.15rem 0.35rem;
   border-radius: 0.25rem;
-  color: #b91c1c; /* red-700 */
+  color: var(--text-code);
 }
 
 .markdown-body pre {
-  background-color: #1e293b; /* slate-800 */
-  color: #f8fafc;
+  background-color: var(--bg-pre);
+  color: var(--text-pre);
   padding: 1rem;
   border-radius: 0.75rem;
   overflow-x: auto;
@@ -136,27 +174,27 @@
 }
 
 .markdown-body th {
-  background-color: #f8fafc; /* slate-50 */
-  color: #334155;
+  background-color: var(--bg-table-header);
+  color: var(--text-secondary);
   font-weight: 600;
   padding: 0.65rem 0.85rem;
   border-bottom-width: 1.5px;
-  border-bottom-color: #cbd5e1;
+  border-bottom-color: var(--border-secondary);
 }
 
 .markdown-body td {
   padding: 0.65rem 0.85rem;
   border-bottom-width: 1px;
-  border-bottom-color: #f1f5f9;
-  color: #475569;
+  border-bottom-color: var(--border-primary);
+  color: var(--text-secondary);
 }
 
 .markdown-body tr:nth-child(even) {
-  background-color: #f8fafc/50;
+  background-color: var(--bg-table-even);
 }
 
 .markdown-body tr:hover {
-  background-color: #f1f5f9/40;
+  background-color: var(--bg-table-hover);
 }
 
 /* 待辦事項 (Task Lists) 微調 */
