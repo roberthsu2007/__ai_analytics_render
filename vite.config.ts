@@ -13,6 +13,7 @@ export default defineConfig(() => {
     },
     server: {
       middlewareMode: true,
+      allowedHosts: ['ai-analytics-render.onrender.com'],
     },
   };
 });
